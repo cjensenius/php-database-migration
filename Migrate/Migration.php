@@ -177,23 +177,11 @@ class Migration
 
     public function load($migrationDir)
     {
-        // construct migration file's path
-        $file = $migrationDir . DIRECTORY_SEPARATOR . $this->getFile();
-
-        // does the migration file exists?
-        if (file_exists($file)) {
-            // get the contents of the file ...
-            $content = file_get_contents($migrationDir . DIRECTORY_SEPARATOR . $this->getFile());
-            // ... and split it into the UP and DOWN migration sections
-            if ($content && strpos($content, '@UNDO') > 0) {
-                $sql = explode('-- @UNDO', $content);
-                $this->setSqlUp($sql[0]);
-                $this->setSqlDown($sql[1]);
-            }
-        // the migration is missing
-        } else {
-            // output the file name so the user can do some cleanup
-            echo "Missing migration file: $file\n";
+        $content = file_get_contents($migrationDir . DIRECTORY_SEPARATOR . $this->getFile());
+        if ($content && strpos($content, '@UNDO') > 0) {
+            $sql = explode('-- @UNDO', $content);
+            $this->setSqlUp($sql[0]);
+            $this->setSqlDown($sql[1]);
         }
     }
 }
