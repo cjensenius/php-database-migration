@@ -65,11 +65,13 @@ class UpCommand extends AbstractEnvCommand
             $progress->start();
 
             /* @var $migration \Migrate\Migration */
+            $this->getDb()->setAttribute(\PDO::ATTR_AUTOCOMMIT, false);
             foreach ($toExecute as $migration) {
                 $progress->setMessage($migration->getDescription());
                 $this->executeUpMigration($migration, $changeLogOnly);
                 $progress->advance();
             }
+            $this->getDb()->setAttribute(\PDO::ATTR_AUTOCOMMIT, true);
 
             $progress->finish();
             $output->writeln("");

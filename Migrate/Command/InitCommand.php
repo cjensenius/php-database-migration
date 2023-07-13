@@ -34,7 +34,7 @@ class InitCommand extends AbstractEnvCommand
 
         $this->getDb()->exec(
             "
-            CREATE table $changelog
+            CREATE table IF NOT EXISTS $changelog
             (
                 id numeric(20,0),
                 applied_at character varying(25),
