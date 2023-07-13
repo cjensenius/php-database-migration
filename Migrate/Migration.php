@@ -178,12 +178,12 @@ class Migration
     public function load($migrationDir)
     {
         // construct migration file's path
-        $file = $migrationDir . '/' . $this->getFile();
+        $file = $migrationDir . DIRECTORY_SEPARATOR . $this->getFile();
 
         // does the migration file exists?
         if (file_exists($file)) {
             // get the contents of the file ...
-            $content = file_get_contents($migrationDir . '/' . $this->getFile());
+            $content = file_get_contents($migrationDir . DIRECTORY_SEPARATOR . $this->getFile());
             // ... and split it into the UP and DOWN migration sections
             if ($content && strpos($content, '@UNDO') > 0) {
                 $sql = explode('-- @UNDO', $content);
